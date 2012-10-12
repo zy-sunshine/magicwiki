@@ -30,18 +30,20 @@ class SkinMagic extends SkinTemplate {
     global $wgHandheldStyle;
     parent::setupSkinUserCss( $out );
 
-    $out->addModuleStyles( 'skins.monobook' );
-
+    $out->addModuleStyles( 'skins.magic' );
     // Ugh. Can't do this properly because $wgHandheldStyle may be a URL
-    if( $wgHandheldStyle ) {
-      // Currently in testing... try 'chick/main.css'
-      $out->addStyle( $wgHandheldStyle, 'handheld' );
-    }
+    //if( $wgHandheldStyle ) {
+    //  // Currently in testing... try 'chick/main.css'
+    //  $out->addStyle( $wgHandheldStyle, 'handheld' );
+    //}
 
     // TODO: Migrate all of these
-    $out->addStyle( 'monobook/IE60Fixes.css', 'screen', 'IE 6' );
-    $out->addStyle( 'monobook/IE70Fixes.css', 'screen', 'IE 7' );
-
+    //$out->addStyle( 'monobook/IE60Fixes.css', 'screen', 'IE 6' );
+    //$out->addStyle( 'monobook/IE70Fixes.css', 'screen', 'IE 7' );
+    $out->addStyle( 'magic/css/bootstrap.min.css', 'screen');
+    $out->addStyle( 'magic/css/bootstrap-responsive.min.css', 'screen');
+    $out->addStyle( 'magic/css/app.css', 'screen');
+    $out->addStyle( 'magic/main.css', 'screen');
   }
 }
 
@@ -64,11 +66,56 @@ class MagicTemplate extends BaseTemplate {
     wfSuppressWarnings();
 
     $this->html( 'headelement' );
-?><div id="globalWrapper">
-<div id="column-content"><div id="content">
+?>
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+  <div class="container">
+    <button type="button" class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="brand" href="#">Easy</a> 
+    <div class="nav-collapse collapse" style="height: 0px; ">
+    <ul class="nav">
+        <li class=""> <a href="/">Home</a> </li>
+        <li class=""> <a href="/blog">Blog</a> </li>
+        <li class="active"> <a href="/wiki">Wiki</a> </li>
+        <li class=""> <a href="/forum">Forum</a> </li>
+    </ul>
+    </div>
+  </div>
+  </div>
+</div>
+<div id="globalWrapper">
+<div id="column-content">
+<div id="column-one"<?php $this->html('userlangattributes')  ?>>
+  <div id="p-personal">
+    <h5><?php $this->msg('personaltools') ?></h5>
+    <div class="pBody">
+      <ul<?php $this->html('userlangattributes') ?>>
+<?php   foreach($this->getPersonalTools() as $key => $item) { ?>
+        <?php echo $this->makeListItem($key, $item); ?>
+
+<?php   } ?>
+      </ul>
+    </div>
+  </div>
+</div><!-- end of the left (by default at least) column -->
+
+<!--<div class="container-fluid">-->
+<!--<div class="row-fluid">-->
+<div id="wiki-sidebar">
+<?php
+  $this->renderPortals( $this->data['sidebar'] );
+?>
+</div>
+
+<div id="wiki-main">
+<?php $this->cactions(); ?>
+<div id="content">
   <a id="top"></a>
   <?php if($this->data['sitenotice']) { ?><div id="siteNotice"><?php $this->html('sitenotice') ?></div><?php } ?>
-
   <h1 id="firstHeading" class="firstHeading"><span dir="auto"><?php $this->html('title') ?></span></h1>
   <div id="bodyContent" class="mw-body">
     <div id="siteSub"><?php $this->msg('tagline') ?></div>
@@ -87,32 +134,9 @@ class MagicTemplate extends BaseTemplate {
     <?php if($this->data['dataAfterContent']) { $this->html ('dataAfterContent'); } ?>
     <div class="visualClear"></div>
   </div>
-</div></div>
-<div id="column-one"<?php $this->html('userlangattributes')  ?>>
-<?php $this->cactions(); ?>
-  <div class="portlet" id="p-personal">
-    <h5><?php $this->msg('personaltools') ?></h5>
-    <div class="pBody">
-      <ul<?php $this->html('userlangattributes') ?>>
-<?php   foreach($this->getPersonalTools() as $key => $item) { ?>
-        <?php echo $this->makeListItem($key, $item); ?>
+</div></div><!-- wiki-main -->
+</div><!-- column-content -->
 
-<?php   } ?>
-      </ul>
-    </div>
-  </div>
-  <div class="portlet" id="p-logo">
-<?php
-      echo Html::element( 'a', array(
-        'href' => $this->data['nav_urls']['mainpage']['href'],
-        'style' => "background-image: url({$this->data['logopath']});" )
-        + Linker::tooltipAndAccesskeyAttribs('p-logo') ); ?>
-
-  </div>
-<?php
-  $this->renderPortals( $this->data['sidebar'] );
-?>
-</div><!-- end of the left (by default at least) column -->
 <div class="visualClear"></div>
 <?php
   $validFooterIcons = $this->getFooterIcons( "icononly" );
@@ -184,7 +208,9 @@ echo $footerEnd;
     global $wgUseTwoButtonsSearchForm;
 ?>
   <div id="p-search" class="portlet">
-    <h5><label for="searchInput"><?php $this->msg('search') ?></label></h5>
+    <h5><!--<label for="searchInput">-->
+    <?php $this->msg('search') ?><!--</label>-->
+    </h5>
     <div id="searchBody" class="pBody">
       <form action="<?php $this->text('wgScript') ?>" id="searchform">
         <input type='hidden' name="title" value="<?php $this->text('searchtitle') ?>"/>
@@ -217,7 +243,6 @@ echo $footerEnd;
         foreach($this->data['content_actions'] as $key => $tab) {
            echo '' . $this->makeListItem( $key, $tab );
         } ?>
-
       </ul>
     </div>
   </div>
