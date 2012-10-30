@@ -40,7 +40,8 @@ class SkinMagic extends SkinTemplate {
     // TODO: Migrate all of these
     //$out->addStyle( 'monobook/IE60Fixes.css', 'screen', 'IE 6' );
     //$out->addStyle( 'monobook/IE70Fixes.css', 'screen', 'IE 7' );
-    $out->addStyle( 'magic/css/bootstrap.min.css', 'screen');
+
+    $out->addStyle( 'magic/css/bootstrap.css', 'screen');
     $out->addStyle( 'magic/css/bootstrap-responsive.min.css', 'screen');
     $out->addStyle( 'magic/css/app.css', 'screen');
     $out->addStyle( 'magic/main.css', 'screen');
