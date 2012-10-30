@@ -1,0 +1,74 @@
+THIS IS NOT A RELEASE YET
+
+Semantic MediaWiki 1.8 is currently in beta-quality and is not recommended for use in
+production until the actual release.
+
+=== Compatibility changes ===
+
+* Changed minimum MediaWiki version from 1.16 to 1.17.
+* Full compatibility with MediaWiki 1.19 and forward-compatibility with 1.20.
+* Changed minimum Validator version from 0.4 to 0.5.
+* The structure of the JSON result format has been altered (bug 37418).
+
+=== New features ===
+
+* Added anonymous auto-numbering for subobjects that don't specify their identifier (bug 36634)
+* Added atom printer (bug 38636)
+* Added support to have fixed tables for a property, see http://semantic-mediawiki.org/wiki/Fixed_properties
+* Added new info tooltip (bug 37361)
+* Added two new output formats for properties of type Time, "Gr" and "Jl", to set the desired calendar model for display in #ask results. If nothing is given, SMW will select the calendar based on the date as before (Julian calendar defaults from until 4th Oct 1582). As before. the same behaviour is used when entering dates, and "Jl" and "Gr" also work in this case.
+
+=== Enhancements ===
+
+* Hash-based checks to update SMW data rather than the delete-insert method used before
+* Different tables for different datatypes leading to less storage wastage, better query performance
+: and improved access methods
+* Highly optimized Special pages Special:Properties,Special:UnusedProperties
+* Refactored code uses DIHandlers class for Database abstraction for each DataItem
+* Splitted the SQLStore into SQLStore3_Writers, SQLStore3_Readers, SQLStore3_SpecialPageHandlers and SQLStore_SetupHandler,
+: while keeping the commonly used functions in SQLStore3
+* Made query link generation completely generic. Links for all formats will now contain
+: all provided arguments.
+* Improved JSON export (bug 37418).
+* Improved Special:Ask UI.
+* Enabled Special:Ask parameters form to be collapsible.
+* Added individual format help links to enable access to online help manuals.
+* Added tests for the query processor, the store, data items and result printers,
+: including base test classes for the later two that can be used by extensions.
+* No more inline CSS and JavaScript on special pages (now all resource loader modules).
+* Added SMWExportPrinter class to facilitate creating export printers and simplify handling code.
+* Added SMWIResultPrinter interface to type hint result printers against.
+* Added continuation support to the Ask API.
+* Migrated Validator parameter definitions to new Validator 0.5 array style.
+* Added possibility to change the appearance of the service link icon via CSS (bug 40644)
+* Transformed SMW_custom.css, SMW_tooltip.js, and the skin folder to comply with the ResourceLoader environment
+
+=== Dropped features ===
+
+* Special:QueryCreator got disabled pending fixes.
+* Values of type Time can no longer be selected by string pattern matching (the string was unspecified and has an internal format that is not useful to match against). This safes database memory (fewer indexes).
+
+=== Bug fixes ===
+
+* Fixed automatic running of SMW updating script when running maitenance/update.php.
+* Fixed page parameter handling on Special:ExportPDF (bug 35180).
+* Fixed handling of #set_recurring_event for 'month' and 'year' time units.
+* Fixed error on Special:URIResolver (bug 35643).
+* Fixed 'badtitle' error on Special:URIResolver (bug 39967).
+* Fixed alternative query source ($smwgQuerySources) (bug 38292).
+* Fixed getMaxIncludeSize() on a non-object error in Special:Ask (bug 40650)
+* Fixed markup issue with the display of service links (bug 39445)
+* Fixed tooltip size issue (bug 29764)
+* Fixed Special:Ask autocomplete issue (bug 40676)
+* Fixed serialisation of Category namespace queries (bug 37065)
+* Fixed non-linked output of URL values in query results (bug 39392)
+* Avoid malformed SPARQL when default graph is not set (bug 37575)
+* Do not batch process pages when using SMW_refreshData.php with delay option (bug 38136)
+* Avoid use of hash_init PHP functions; use md5() instead (bug 38185)
+* Fixed parsing of malformed printout requests that could cause exception (bug 38489)
+* Don't confuse Julian an Gregorian dates internally (bug 41126)
+
+
+=== Extended translations ===
+
+As usual, translations have been extended thanks to the [[Translatewiki.net|Translatewiki.net project]].
