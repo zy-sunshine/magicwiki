@@ -28,3 +28,4 @@ pip-log.txt
 
 LocalSettings.php
 /images/
+/cache/*
